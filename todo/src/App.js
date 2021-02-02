@@ -1,23 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import Tasks from './components/Tasks';
+import TaskForm from './components/TaskForm';
+import { useReducer, useState } from 'react'; 
+import reducer, { initialState, ADD, TOGGLE, CLEAR } from './reducers/reducer';
+
 
 function App() {
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const addTask = (task) => {
+    
+    dispatch({type: ADD, payload: task}) 
+  }
+
+  const toggleTask = (taskId) => {
+    dispatch({type: TOGGLE, payload: taskId})
+  }
+
+  const clearTask = () => {
+   
+    dispatch({type: CLEAR})
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TaskForm addTask = {addTask} clearTask={clearTask}/>
+      <Tasks state = {state} toggleTask = {toggleTask}/>
     </div>
   );
 }
